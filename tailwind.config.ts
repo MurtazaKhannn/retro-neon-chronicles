@@ -24,6 +24,9 @@ export default {
 				'sans': ['Poppins', 'system-ui', 'sans-serif'],
 				'mono': ['Special Elite', 'Courier New', 'monospace'],
 			},
+			contrast: {
+				'105': '1.05',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
