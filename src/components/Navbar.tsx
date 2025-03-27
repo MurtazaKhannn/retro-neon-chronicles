@@ -17,7 +17,9 @@ const Navbar = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/90 backdrop-blur-md shadow-md py-2" : "py-0"
+        isScrolled
+          ? "bg-background/90 backdrop-blur-md shadow-lg py-3"
+          : "bg-transparent py-4"
       }`}
     >
       <div className="section-container">
@@ -25,7 +27,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <a
               href="/"
-              className="text-2xl font-bold font-mono tracking-wide text-primary"
+              className="text-2xl font-bold font-mono tracking-wide text-primary hover:text-neon-pink transition-colors duration-300"
             >
               LINGs<span className="text-neon-pink">CARS.com</span>
             </a>
@@ -49,12 +51,14 @@ const Navbar = () => {
                 {item}
               </a>
             ))}
-            <button className="primary-btn mb-3">Click to email</button>
+            <button className="primary-btn mb-3 hover:shadow-lg transition-shadow">
+              Click to email
+            </button>
           </nav>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-foreground p-1"
+            className="md:hidden text-foreground p-2 rounded-full hover:bg-gray-200 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -79,7 +83,9 @@ const Navbar = () => {
                   </a>
                 )
               )}
-              <button className="primary-btn self-start">Click to email</button>
+              <button className="primary-btn self-start hover:shadow-lg transition-shadow">
+                Click to email
+              </button>
             </nav>
           </div>
         </div>

@@ -1,145 +1,167 @@
+import React, { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import React, { useEffect, useRef } from 'react';
-import { ArrowDown, Battery, Gauge, Clock, Zap } from 'lucide-react';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+const CarCarousel = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-const Hero = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  
-  const scrollToContent = () => {
-    const contentSection = document.getElementById('features');
-    if (contentSection) {
-      contentSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  useEffect(() => {
-    // Parallax effect on scroll
-    const handleScroll = () => {
-      if (scrollRef.current) {
-        const scrollY = window.scrollY;
-        scrollRef.current.style.transform = `translateY(${scrollY * 0.3}px)`;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Car specifications data
-  const carSpecs = [
+  const carDetails = [
     {
-      title: "Battery Range",
-      value: "310 miles",
-      icon: <Battery className="h-6 w-6 text-neon-blue" />,
-      color: "bg-neon-blue/10"
+      model: "BYD SEALION 7",
+      specs: "230KW COMFORT 83KWH 5DR AUTOMATIC",
+      monthlyPrice: "£378",
+      businessPrice: "£315",
+      contractOptions: [
+        { label: "36 month contract", color: "bg-pink-500" },
+        { label: "6 months upfront", color: "bg-blue-500" },
+        { label: "8000 miles a year", color: "bg-pink-500" },
+      ],
+      image:
+        "https://static.vecteezy.com/system/resources/previews/026/427/927/non_2x/vintage-classic-car-illustration-free-png.png",
+      background: "",
     },
     {
-      title: "Top Speed",
-      value: "155 mph",
-      icon: <Gauge className="h-6 w-6 text-neon-pink" />,
-      color: "bg-neon-pink/10"
+      model: "TESLA MODEL 3",
+      specs: "350KW PERFORMANCE LONG RANGE AWD",
+      monthlyPrice: "£498",
+      businessPrice: "£415",
+      contractOptions: [
+        { label: "24 month contract", color: "bg-blue-500" },
+        { label: "3 months upfront", color: "bg-green-500" },
+        { label: "10000 miles a year", color: "bg-purple-500" },
+      ],
+      image:
+        "https://file.aiquickdraw.com/imgcompressed/img/compressed_47229c258876a6b5c8c644371f1d9e51.webp",
+      background: "",
     },
-    {
-      title: "0-60 mph",
-      value: "3.9 sec",
-      icon: <Clock className="h-6 w-6 text-neon-yellow" />,
-      color: "bg-neon-yellow/10"
-    },
-    {
-      title: "Max Power",
-      value: "480 HP",
-      icon: <Zap className="h-6 w-6 text-neon-purple" />,
-      color: "bg-neon-purple/10"
-    }
+    // You can add more car models here
   ];
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % carDetails.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide(
+      (prev) => (prev - 1 + carDetails.length) % carDetails.length
+    );
+  };
+
+  const car = carDetails[currentSlide];
+
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
-      {/* Background with noise effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-muted z-0">
-        <div className="noise-overlay"></div>
-      </div>
-      
-      {/* Decorative elements */}
-      <div 
-        ref={scrollRef}
-        className="absolute inset-0 z-0 opacity-20"
-        aria-hidden="true"
-      >
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-neon-purple/30 blur-3xl animate-pulse-soft"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-96 h-96 rounded-full bg-neon-blue/20 blur-3xl animate-pulse-soft" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-1/2 right-1/4 w-72 h-72 rounded-full bg-neon-pink/20 blur-3xl animate-pulse-soft" style={{animationDelay: '2s'}}></div>
-      </div>
-      
-      <div className="section-container relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-block mb-4 px-3 py-1 bg-muted/50 backdrop-blur-sm border border-border rounded-full">
-            <p className="text-sm font-mono tracking-wider text-primary animate-fade-in">
-              ESTABLISHED 1920 • REIMAGINED 2024
-            </p>
+    <div
+      className="relative w-full min-h-[700px] overflow-hidden bg-cover bg-center mt-44 flex flex-col items-center justify-center"
+      style={{ backgroundImage: `url(${car.background})` }}
+    >
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-md transition-opacity duration-500"></div>
+
+      <div className="relative z-10 container mx-auto px-6 py-6 flex flex-col lg:flex-row items-center justify-between space-y-10 lg:space-y-0">
+        {/* Navigation Buttons */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-6 top-1/2 transform -translate-y-1/2 
+                     bg-white/30 hover:bg-white/50 p-3 rounded-full 
+                     shadow-lg transition-all duration-300"
+        >
+          <ChevronLeft className="text-white w-8 h-8" />
+        </button>
+
+        <button
+          onClick={nextSlide}
+          className="absolute right-6 top-1/2 transform -translate-y-1/2 
+                     bg-white/30 hover:bg-white/50 p-3 rounded-full 
+                     shadow-lg transition-all duration-300"
+        >
+          <ChevronRight className="text-white w-8 h-8" />
+        </button>
+
+        {/* Car Details Section */}
+        <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-center">
+          {/* Left Side - Car Details */}
+          <div className="w-full lg:w-1/2 space-y-6 text-center lg:text-left text-white">
+            <div>
+              <h2 className="text-5xl font-bold text-yellow-400 mb-4 transition-transform duration-300 hover:scale-105">
+                {car.model}
+              </h2>
+              <p className="text-xl font-medium text-white/80">{car.specs}</p>
+            </div>
+
+            <div className="text-6xl font-bold text-yellow-400">
+              {car.monthlyPrice}
+              <span className="text-2xl ml-2">A MONTH INC VAT</span>
+            </div>
+
+            {/* Contract Options */}
+            <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+              {car.contractOptions.map((option, index) => (
+                <div
+                  key={index}
+                  className={` 
+                    ${option.color} 
+                    px-4 py-2 
+                    rounded-lg 
+                    text-white 
+                    font-medium 
+                    shadow-lg 
+                    transform 
+                    hover:scale-110 
+                    transition-transform duration-300
+                  `}
+                >
+                  {option.label}
+                </div>
+              ))}
+            </div>
+
+            <div className="text-xl text-white/80">
+              BUSINESS PRICE {car.businessPrice} + VAT
+            </div>
           </div>
-          
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-mono font-bold leading-tight mb-6 tracking-tighter animate-fade-in" style={{animationDelay: '0.2s'}}>
-            <span className="block text-vintage-gold">RETRO-NEON</span>
-            <span className="block text-foreground mt-2">CHRONICLES</span>
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-foreground/80 mb-8 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-            Where vintage elegance meets modern flair. Discover the perfect blend of nostalgia and innovation.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up" style={{animationDelay: '0.6s'}}>
-            <button className="primary-btn">
-              Explore Collection
-            </button>
-            <button className="secondary-btn">
-              Our Story
-            </button>
-          </div>
-          
-          {/* Car Specs Carousel */}
-          <div className="mt-12 animate-fade-in-up" style={{animationDelay: '0.8s'}}>
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true
-              }}
-              className="w-full max-w-sm sm:max-w-md md:max-w-lg mx-auto"
-            >
-              <CarouselContent>
-                {carSpecs.map((spec, index) => (
-                  <CarouselItem key={index} className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                    <div className={`${spec.color} rounded-md p-4 h-full flex flex-col items-center justify-center text-center border border-border/30 backdrop-blur-sm vintage-box`}>
-                      <div className="mb-2">{spec.icon}</div>
-                      <h3 className="text-sm font-mono text-foreground/80 mb-1">{spec.title}</h3>
-                      <p className="text-xl font-mono font-bold">{spec.value}</p>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <div className="flex justify-center mt-4">
-                <CarouselPrevious className="static mr-2 transform-none" />
-                <CarouselNext className="static ml-2 transform-none" />
-              </div>
-            </Carousel>
+
+          {/* Right Side - Car Image */}
+          <div className="w-full lg:w-1/2 flex justify-center relative">
+            <img
+              src={car.image}
+              alt={car.model}
+              className="max-w-full h-auto transform hover:scale-110 transition-transform duration-300 shadow-lg"
+            />
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-2 bg-white/50 rounded-full"></div>
           </div>
         </div>
       </div>
-      
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-fade-in-up" style={{animationDelay: '1s'}}>
-        <button 
-          onClick={scrollToContent}
-          className="flex flex-col items-center text-foreground/70 hover:text-primary transition-colors duration-300"
-          aria-label="Scroll to content"
-        >
-          <span className="text-sm font-mono mb-2">Discover</span>
-          <ArrowDown className="animate-bounce" />
-        </button>
+
+      {/* Filters */}
+      <div className="absolute bottom-8 right-8 z-20 bg-white/20 backdrop-blur-md rounded-lg p-4 w-64 shadow-lg">
+        <div className="flex space-x-2 mb-4">
+          <button className="px-3 py-1 bg-cyan-500 text-white rounded-full text-sm hover:bg-cyan-600 transition-colors">
+            Personal
+          </button>
+          <button className="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm hover:bg-gray-300 transition-colors">
+            Business
+          </button>
+        </div>
+
+        <div className="space-y-2">
+          <select className="w-full px-3 py-2 bg-white/30 text-white rounded-md hover:bg-white/40 transition-colors">
+            <option>All makes</option>
+          </select>
+          <select className="w-full px-3 py-2 bg-white/30 text-white rounded-md hover:bg-white/40 transition-colors">
+            <option>All models</option>
+          </select>
+          <select className="w-full px-3 py-2 bg-white/30 text-white rounded-md hover:bg-white/40 transition-colors">
+            <option>All body styles</option>
+          </select>
+          <select className="w-full px-3 py-2 bg-white/30 text-white rounded-md hover:bg-white/40 transition-colors">
+            <option>Any budget</option>
+          </select>
+
+          <button className="w-full py-3 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition-colors">
+            Get deals
+          </button>
+        </div>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default Hero;
+export default CarCarousel;
