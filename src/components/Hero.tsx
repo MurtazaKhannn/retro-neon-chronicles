@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Battery, Gauge, Clock, Zap } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const Hero = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -24,6 +25,34 @@ const Hero = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Car specifications data
+  const carSpecs = [
+    {
+      title: "Battery Range",
+      value: "310 miles",
+      icon: <Battery className="h-6 w-6 text-neon-blue" />,
+      color: "bg-neon-blue/10"
+    },
+    {
+      title: "Top Speed",
+      value: "155 mph",
+      icon: <Gauge className="h-6 w-6 text-neon-pink" />,
+      color: "bg-neon-pink/10"
+    },
+    {
+      title: "0-60 mph",
+      value: "3.9 sec",
+      icon: <Clock className="h-6 w-6 text-neon-yellow" />,
+      color: "bg-neon-yellow/10"
+    },
+    {
+      title: "Max Power",
+      value: "480 HP",
+      icon: <Zap className="h-6 w-6 text-neon-purple" />,
+      color: "bg-neon-purple/10"
+    }
+  ];
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
@@ -67,6 +96,33 @@ const Hero = () => {
             <button className="secondary-btn">
               Our Story
             </button>
+          </div>
+          
+          {/* Car Specs Carousel */}
+          <div className="mt-12 animate-fade-in-up" style={{animationDelay: '0.8s'}}>
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true
+              }}
+              className="w-full max-w-sm sm:max-w-md md:max-w-lg mx-auto"
+            >
+              <CarouselContent>
+                {carSpecs.map((spec, index) => (
+                  <CarouselItem key={index} className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                    <div className={`${spec.color} rounded-md p-4 h-full flex flex-col items-center justify-center text-center border border-border/30 backdrop-blur-sm vintage-box`}>
+                      <div className="mb-2">{spec.icon}</div>
+                      <h3 className="text-sm font-mono text-foreground/80 mb-1">{spec.title}</h3>
+                      <p className="text-xl font-mono font-bold">{spec.value}</p>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="flex justify-center mt-4">
+                <CarouselPrevious className="static mr-2 transform-none" />
+                <CarouselNext className="static ml-2 transform-none" />
+              </div>
+            </Carousel>
           </div>
         </div>
       </div>
